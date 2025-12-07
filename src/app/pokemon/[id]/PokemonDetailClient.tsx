@@ -87,6 +87,9 @@ export function PokemonDetailClient({
     }
   }
 
+  const hasData = pokemon?.abilities?.length || pokemon?.moves?.length ||
+    pokemon?.forms?.length || pokemon?.types?.length || pokemon?.stats?.length
+
   if (isLoading) {
     return (
       <Layout>
@@ -132,57 +135,69 @@ export function PokemonDetailClient({
           onError={handleImageError}
         />
 
-        <section>
-          <h2>Abilities</h2>
-          <ul>
-            {pokemon.abilities.map((ability, index) => (
-              <li key={index}>
-                {ability.name} {ability.isHidden && '(Hidden)'}
-              </li>
-            ))}
-          </ul>
-        </section>
+        {!hasData ? (
+          <p>There is not enough information at this moment.</p>
+        ) : (
+          <>
+            {pokemon.abilities?.length > 0 && (
+              <section>
+                <h2>Abilities</h2>
+                <ul>
+                  {pokemon.abilities.map((ability, index) => (
+                    <li key={index}>
+                      {ability.name} {ability.isHidden && '(Hidden)'}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
 
-        <section>
-          <h2>Moves</h2>
-          <ul>
-            {pokemon.moves.map((move, index) => (
-              <li key={index}>{move.name}</li>
-            ))}
-          </ul>
-        </section>
+            {pokemon.moves?.length > 0 && (
+              <section>
+                <h2>Moves</h2>
+                <ul>
+                  {pokemon.moves.map((move, index) => (
+                    <li key={index}>{move.name}</li>
+                  ))}
+                </ul>
+              </section>
+            )}
 
-        <section>
-          <h2>Forms</h2>
-          <ul>
-            {pokemon.forms.map((form, index) => (
-              <li key={index}>{form.name}</li>
-            ))}
-          </ul>
-        </section>
+            {pokemon.forms?.length > 0 && (
+              <section>
+                <h2>Forms</h2>
+                <ul>
+                  {pokemon.forms.map((form, index) => (
+                    <li key={index}>{form.name}</li>
+                  ))}
+                </ul>
+              </section>
+            )}
 
-        {pokemon.types && pokemon.types.length > 0 && (
-          <section>
-            <h2>Types</h2>
-            <ul>
-              {pokemon.types.map((type, index) => (
-                <li key={index}>{type.name}</li>
-              ))}
-            </ul>
-          </section>
-        )}
+            {pokemon.types && pokemon.types.length > 0 && (
+              <section>
+                <h2>Types</h2>
+                <ul>
+                  {pokemon.types.map((type, index) => (
+                    <li key={index}>{type.name}</li>
+                  ))}
+                </ul>
+              </section>
+            )}
 
-        {pokemon.stats && pokemon.stats.length > 0 && (
-          <section>
-            <h2>Stats</h2>
-            <ul>
-              {pokemon.stats.map((stat, index) => (
-                <li key={index}>
-                  {stat.name}: {stat.value}
-                </li>
-              ))}
-            </ul>
-          </section>
+            {pokemon.stats && pokemon.stats.length > 0 && (
+              <section>
+                <h2>Stats</h2>
+                <ul>
+                  {pokemon.stats.map((stat, index) => (
+                    <li key={index}>
+                      {stat.name}: {stat.value}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+          </>
         )}
       </div>
     </Layout>
