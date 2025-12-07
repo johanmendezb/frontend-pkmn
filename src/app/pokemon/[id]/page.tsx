@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { serverFetch } from '@/shared/lib/apiClient'
+import { serverFetch } from '@/shared/lib/serverApiClient'
 import { PokemonDetailClient } from './PokemonDetailClient'
 
 async function getPokemon(id: string) {
