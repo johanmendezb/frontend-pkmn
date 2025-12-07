@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import { Layout } from '@/shared/components/Layout'
@@ -14,6 +15,8 @@ interface PokemonDetailClientProps {
 
 const MIN_POKEMON_ID = 1
 const MAX_POKEMON_ID = 1302 // Approximate max from PokeAPI
+const FALLBACK_IMAGE_URL =
+  'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/54.png'
 
 export function PokemonDetailClient({
   initialData,
@@ -25,6 +28,21 @@ export function PokemonDetailClient({
     id: pokemonId,
     initialData,
   })
+  const [imageSrc, setImageSrc] = useState(
+    pokemon?.image || FALLBACK_IMAGE_URL
+  )
+  const [hasError, setHasError] = useState(false)
+
+  // Reset image source when pokemon changes
+  useEffect(() => {
+    if (pokemon?.image) {
+      setImageSrc(pokemon.image)
+      setHasError(false)
+    } else {
+      setImageSrc(FALLBACK_IMAGE_URL)
+      setHasError(false)
+    }
+  }, [pokemon?.image])
 
   const handleBack = () => {
     const page = searchParams.get('page')
@@ -61,6 +79,13 @@ export function PokemonDetailClient({
 
   const hasPrevious = pokemonId > MIN_POKEMON_ID
   const hasNext = pokemonId < MAX_POKEMON_ID
+
+  const handleImageError = () => {
+    if (!hasError) {
+      setHasError(true)
+      setImageSrc(FALLBACK_IMAGE_URL)
+    }
+  }
 
   if (isLoading) {
     return (
@@ -99,14 +124,13 @@ export function PokemonDetailClient({
         <h1>{pokemon.name}</h1>
         <p>#{String(pokemon.id).padStart(3, '0')}</p>
 
-        {pokemon.image && (
-          <Image
-            src={pokemon.image}
-            alt={pokemon.name}
-            width={400}
-            height={400}
-          />
-        )}
+        <Image
+          src={imageSrc}
+          alt={pokemon.name}
+          width={400}
+          height={400}
+          onError={handleImageError}
+        />
 
         <section>
           <h2>Abilities</h2>
