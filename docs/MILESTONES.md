@@ -38,10 +38,10 @@
 - [ ] Set up app routing structure
 
 ### Milestone 4: Frontend Core Features
-- [ ] **Auth Feature**
-  - [ ] LoginForm component with validation
-  - [ ] Login page with error handling
-  - [ ] Logout functionality in Layout
+- [x] **Auth Feature**
+  - [x] LoginForm component with validation
+  - [x] Login page with error handling
+  - [x] Logout functionality in Layout
 - [ ] **Pokemon List Feature**
   - [ ] PokemonCard component
   - [ ] PokemonList component with grid

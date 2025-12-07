@@ -1,12 +1,25 @@
 'use client'
 
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { isAuthenticated } from '@/features/auth/services/authApi'
+import { LoginForm } from '@/features/auth/components/LoginForm'
+import { Layout } from '@/shared/components/Layout'
+
 export default function LoginPage() {
+  const router = useRouter()
+
+  useEffect(() => {
+    if (isAuthenticated()) {
+      router.push('/pokemon')
+    }
+  }, [router])
+
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold mb-4">Login</h1>
-        <p className="text-gray-600">Login form will be implemented here</p>
+    <Layout showLogout={false}>
+      <div>
+        <LoginForm />
       </div>
-    </div>
+    </Layout>
   )
 }
