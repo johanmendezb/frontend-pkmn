@@ -29,13 +29,13 @@
 ### Milestone 3: Frontend Foundation
 - [x] Add project documentation
 - [x] Initialize Next.js 16 + TypeScript project
-- [ ] Configure Tailwind CSS
-- [ ] Set up project folder structure (feature-based)
-- [ ] Configure TanStack Query provider
-- [ ] Set up Zustand auth store with persistence
-- [ ] Create API client (axios with interceptors)
-- [ ] Implement ProtectedRoute component
-- [ ] Set up app routing structure
+- [x] Configure Tailwind CSS
+- [x] Set up project folder structure (feature-based)
+- [x] Configure TanStack Query provider
+- [x] Set up Zustand auth store with persistence
+- [x] Create API client (axios with interceptors)
+- [x] Implement ProtectedRoute component
+- [x] Set up app routing structure
 
 ### Milestone 4: Frontend Core Features
 - [x] **Auth Feature**

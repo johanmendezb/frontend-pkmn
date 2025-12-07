@@ -1,27 +1,24 @@
 import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
-import { serverFetch } from '@/shared/lib/serverApiClient'
 import { PokemonPageClient } from './PokemonPageClient'
 
-async function getPokemons() {
+async function getInitialPokemons() {
   const cookieStore = await cookies()
   const token = cookieStore.get('auth-token')?.value
 
-  if (!token) {
-    redirect('/login')
-  }
+  if (!token) return null
 
-  try {
-    const data = await serverFetch('/pokemons?limit=20')
-    return data
-  } catch (error) {
-    console.error('Failed to fetch pokemons:', error)
-    throw error
-  }
+  const res = await fetch(`${process.env.API_URL}/pokemons?limit=20`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: 'no-store',
+  })
+
+  if (!res.ok) return null
+
+  return res.json()
 }
 
 export default async function PokemonPage() {
-  const initialData = await getPokemons()
+  const initialData = await getInitialPokemons()
 
   return <PokemonPageClient initialData={initialData} />
 }
