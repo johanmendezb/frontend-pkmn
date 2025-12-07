@@ -28,7 +28,7 @@
 
 ### Milestone 3: Frontend Foundation
 - [x] Add project documentation
-- [ ] Initialize Next.js 16 + TypeScript project
+- [x] Initialize Next.js 16 + TypeScript project
 - [ ] Configure Tailwind CSS
 - [ ] Set up project folder structure (feature-based)
 - [ ] Configure TanStack Query provider
