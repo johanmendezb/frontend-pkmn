@@ -12,4 +12,3 @@ export function usePokemonCount() {
     staleTime: 5 * 60 * 1000, // 5 minutes - count doesn't change often
   })
 }
-

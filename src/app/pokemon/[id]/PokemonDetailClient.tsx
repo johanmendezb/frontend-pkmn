@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import { Layout } from '@/shared/components/Layout'
 import { usePokemonDetail } from '@/features/pokemon/hooks/usePokemonDetail'
+import { usePokemonCount } from '@/features/pokemon/hooks/usePokemonCount'
 import { ArrowLeft, ChevronLeft, ChevronRight, PokeBall } from '@/shared/components/icons'
 import { getTypeColor } from '@/features/pokemon/utils/getTypeColor'
 import type { PokemonDetail } from '@/features/pokemon/types/pokemon.types'
@@ -29,6 +30,7 @@ export function PokemonDetailClient({
     id: pokemonId,
     initialData,
   })
+  const { data: maxPokemonId = MAX_POKEMON_ID } = usePokemonCount()
   const [imageSrc, setImageSrc] = useState(
     pokemon?.image || FALLBACK_IMAGE_URL
   )
@@ -67,7 +69,7 @@ export function PokemonDetailClient({
   }
 
   const handleNext = () => {
-    if (pokemonId < MAX_POKEMON_ID) {
+    if (pokemonId < maxPokemonId) {
       const nextId = pokemonId + 1
       const page = searchParams.get('page')
       if (page) {
@@ -79,7 +81,7 @@ export function PokemonDetailClient({
   }
 
   const hasPrevious = pokemonId > MIN_POKEMON_ID
-  const hasNext = pokemonId < MAX_POKEMON_ID
+  const hasNext = pokemonId < maxPokemonId
 
   const handleImageError = () => {
     if (!hasError) {
