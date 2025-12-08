@@ -138,16 +138,15 @@ export function PokemonPageClient({ initialData }: PokemonPageClientProps) {
     : 0
 
   return (
-    <Layout>
-      <div>
-        <h1>Pokemon List</h1>
-
-        <SearchBar />
-        <SortControls />
-
+    <Layout showHeaderControls={true}>
+      <div className="bg-white">
         {error && (
-          <div role="alert">
-            Error loading Pokemon: {error instanceof Error ? error.message : 'Unknown error'}
+          <div
+            role="alert"
+            className="p-4 bg-red-50 border border-red-200 text-red-700 rounded"
+          >
+            Error loading Pokemon:{' '}
+            {error instanceof Error ? error.message : 'Unknown error'}
           </div>
         )}
 
@@ -158,16 +157,18 @@ export function PokemonPageClient({ initialData }: PokemonPageClientProps) {
         />
 
         {!searchTerm && (
-          <Pagination
-            hasNext={!!data?.next}
-            hasPrevious={!!data?.previous}
-            onNext={handleNext}
-            onPrevious={handlePrevious}
-            onFirst={handleFirst}
-            onLast={handleLast}
-            currentPage={currentPage + 1}
-            totalPages={totalPages}
-          />
+          <div className="p-4">
+            <Pagination
+              hasNext={!!data?.next}
+              hasPrevious={!!data?.previous}
+              onNext={handleNext}
+              onPrevious={handlePrevious}
+              onFirst={handleFirst}
+              onLast={handleLast}
+              currentPage={currentPage + 1}
+              totalPages={totalPages}
+            />
+          </div>
         )}
       </div>
     </Layout>

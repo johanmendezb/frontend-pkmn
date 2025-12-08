@@ -1,7 +1,6 @@
 'use client'
 
 import { useUIStore } from '@/shared/stores/uiStore'
-import { Button } from '@/shared/components/Button'
 
 export function SortControls() {
   const sortBy = useUIStore((state) => state.sortBy)
@@ -14,19 +13,30 @@ export function SortControls() {
   }
 
   return (
-    <div>
-      <Button
-        onClick={() => handleSortByChange('number')}
-        variant={sortBy === 'number' ? 'primary' : 'secondary'}
-      >
-        Sort by Number {sortBy === 'number' && (sortOrder === 'asc' ? '↑' : '↓')}
-      </Button>
-      <Button
-        onClick={() => handleSortByChange('name')}
-        variant={sortBy === 'name' ? 'primary' : 'secondary'}
-      >
-        Sort by Name {sortBy === 'name' && (sortOrder === 'asc' ? '↑' : '↓')}
-      </Button>
+    <div className="bg-gray-dark px-4 py-3 rounded-lg">
+      <h2 className="text-subtitle-1 text-white mb-2">Sort by:</h2>
+      <div className="space-y-2">
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            type="radio"
+            name="sort"
+            checked={sortBy === 'number'}
+            onChange={() => handleSortByChange('number')}
+            className="w-4 h-4 text-primary focus:ring-primary"
+          />
+          <span className="text-body-1 text-white">Number</span>
+        </label>
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            type="radio"
+            name="sort"
+            checked={sortBy === 'name'}
+            onChange={() => handleSortByChange('name')}
+            className="w-4 h-4 text-primary focus:ring-primary"
+          />
+          <span className="text-body-1 text-white">Name</span>
+        </label>
+      </div>
     </div>
   )
 }

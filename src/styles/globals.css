@@ -3,3 +3,102 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@theme {
+  /* Colors */
+  --color-primary: #DC0A2D;
+  --color-type-bug: #A7B723;
+  --color-type-dark: #75574C;
+  --color-type-dragon: #7037FF;
+  --color-type-electric: #F9CF30;
+  --color-type-fairy: #E69EAC;
+  --color-type-fighting: #C12239;
+  --color-type-fire: #F57D31;
+  --color-type-flying: #A891EC;
+  --color-type-ghost: #70559B;
+  --color-type-normal: #AAA67F;
+  --color-type-grass: #74CB48;
+  --color-type-ground: #DEC16B;
+  --color-type-ice: #9AD6DF;
+  --color-type-poison: #A43E9E;
+  --color-type-psychic: #FB5584;
+  --color-type-rock: #B69E31;
+  --color-type-steel: #B7B9D0;
+  --color-type-water: #6493EB;
+  --color-gray-dark: #212121;
+  --color-gray-medium: #666666;
+  --color-gray-light: #E0E0E0;
+  --color-gray-background: #EFEFEF;
+  --color-white: #FFFFFF;
+
+  /* Font Family */
+  --font-family-sans: 'Roboto', sans-serif;
+
+  /* Box Shadows */
+  --shadow-elevation-2: 0px 1px 3px 1px rgba(0, 0, 0, 0.2);
+  --shadow-elevation-6: 0px 2px 6px 2px rgba(0, 0, 0, 0.25);
+}
+
+@layer base {
+  body {
+    font-family: var(--font-family-sans);
+  }
+}
+
+@layer utilities {
+  .text-headline {
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 700;
+  }
+
+  .text-subtitle-1 {
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: 700;
+  }
+
+  .text-subtitle-2 {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 700;
+  }
+
+  .text-subtitle-3 {
+    font-size: 10px;
+    line-height: 16px;
+    font-weight: 700;
+  }
+
+  .text-body-1 {
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: 400;
+  }
+
+  .text-body-2 {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 400;
+  }
+
+  .text-body-3 {
+    font-size: 10px;
+    line-height: 16px;
+    font-weight: 400;
+  }
+
+  .text-caption {
+    font-size: 8px;
+    line-height: 12px;
+    font-weight: 400;
+  }
+
+  .shadow-elevation-2 {
+    box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.2);
+  }
+
+  .shadow-elevation-6 {
+    box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.25);
+  }
+}
