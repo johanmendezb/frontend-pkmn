@@ -34,7 +34,7 @@ export function PokemonPageClient({ initialData }: PokemonPageClientProps) {
     if (page >= 0) {
       setCurrentPage((prev) => {
         if (prev !== page) {
-          isUpdatingFromUrl.current = true
+      isUpdatingFromUrl.current = true
           return page
         }
         return prev
@@ -139,14 +139,13 @@ export function PokemonPageClient({ initialData }: PokemonPageClientProps) {
 
   return (
     <Layout showHeaderControls={true}>
-      <div className="bg-white">
         {error && (
-          <div
-            role="alert"
-            className="p-4 bg-red-50 border border-red-200 text-red-700 rounded"
-          >
-            Error loading Pokemon:{' '}
-            {error instanceof Error ? error.message : 'Unknown error'}
+        <div
+          role="alert"
+          className="p-4 m-4 bg-red-50 border border-red-200 text-red-700 rounded-lg"
+        >
+          Error loading Pokemon:{' '}
+          {error instanceof Error ? error.message : 'Unknown error'}
           </div>
         )}
 
@@ -157,20 +156,17 @@ export function PokemonPageClient({ initialData }: PokemonPageClientProps) {
         />
 
         {!searchTerm && (
-          <div className="p-4">
-            <Pagination
-              hasNext={!!data?.next}
-              hasPrevious={!!data?.previous}
-              onNext={handleNext}
-              onPrevious={handlePrevious}
-              onFirst={handleFirst}
-              onLast={handleLast}
-              currentPage={currentPage + 1}
-              totalPages={totalPages}
-            />
-          </div>
+          <Pagination
+            hasNext={!!data?.next}
+            hasPrevious={!!data?.previous}
+            onNext={handleNext}
+            onPrevious={handlePrevious}
+            onFirst={handleFirst}
+            onLast={handleLast}
+            currentPage={currentPage + 1}
+            totalPages={totalPages}
+          />
         )}
-      </div>
     </Layout>
   )
 }

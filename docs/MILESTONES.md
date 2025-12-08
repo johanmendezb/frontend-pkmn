@@ -42,22 +42,22 @@
   - [x] LoginForm component with validation
   - [x] Login page with error handling
   - [x] Logout functionality in Layout
-- [ ] **Pokemon List Feature**
-  - [ ] PokemonCard component
-  - [ ] PokemonList component with grid
-  - [ ] SearchBar with debounce
-  - [ ] SortControls component
-  - [ ] Pagination component
-  - [ ] usePokemonList hook
+- [x] **Pokemon List Feature**
+  - [x] PokemonCard component
+  - [x] PokemonList component with grid
+  - [x] SearchBar with debounce
+  - [x] SortControls component
+  - [x] Pagination component
+  - [x] usePokemonList hook
 - [ ] **Pokemon Detail Feature**
   - [ ] PokemonDetail component
   - [ ] Detail page with abilities, moves, forms
   - [ ] usePokemonDetail hook
   - [ ] Back navigation
-- [ ] **Backend Integration**
-  - [ ] Connect all API endpoints
+- [x] **Backend Integration**
+  - [x] Connect all API endpoints
   - [ ] Test full user flows manually
-  - [ ] Fix any integration issues
+  - [x] Fix any integration issues
 
 ### Milestone 5: Frontend Testing
 - [ ] Configure Vitest + React Testing Library

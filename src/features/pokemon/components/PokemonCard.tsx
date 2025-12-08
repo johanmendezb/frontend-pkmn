@@ -35,33 +35,35 @@ export function PokemonCard({
   return (
     <div
       onClick={() => onClick(pokemon.id)}
-      className={`w-[104px] h-[108px] bg-white rounded-lg border-2 border-dotted border-gray-light cursor-pointer relative overflow-hidden ${
-        isSelected ? 'border-purple-500' : ''
+      className={`w-[104px] h-[108px] md:w-[140px] md:h-[144px] lg:w-[160px] lg:h-[164px] bg-white rounded-lg shadow-elevation-2 cursor-pointer relative overflow-hidden hover:shadow-elevation-6 transition-shadow ${
+        isSelected ? 'ring-2 ring-primary' : ''
       }`}
     >
-      {/* Half height gray background */}
-      <div className="absolute top-0 left-0 right-0 h-[54px] bg-gray-background"></div>
-
-      {/* Number in top right */}
-      <span className="absolute top-1 right-1 text-caption text-gray-medium font-bold z-10">
+      {/* Number in top left */}
+      <span className="absolute top-1 left-1 md:top-2 md:left-2 text-body-3 md:text-body-1 lg:text-subtitle-1 text-gray-dark font-bold z-10">
         {formatNumber(pokemon.id)}
       </span>
 
-      {/* Pokemon image - 72x72 centered */}
-      <div className="absolute top-0 left-0 right-0 h-[54px] flex items-center justify-center z-0">
+      {/* Half height gray background at bottom */}
+      <div className="absolute bottom-0 left-0 right-0 h-[54px] md:h-[72px] lg:h-[82px] bg-gray-background rounded-t-lg"></div>
+
+      {/* Pokemon image - centered */}
+      <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center p-2 md:p-3">
         <Image
           src={imageSrc}
           alt={pokemon.name}
-          width={72}
-          height={72}
+          width={112}
+          height={112}
+          className="w-[72px] h-[72px] md:w-[96px] md:h-[96px] lg:w-[112px] lg:h-[112px] object-contain"
           onError={handleImageError}
-          className="object-contain"
         />
       </div>
 
-      {/* Name centered at bottom */}
-      <div className="absolute bottom-0 left-0 right-0 h-[54px] flex items-center justify-center">
-        <h3 className="text-body-2 text-center capitalize">{pokemon.name}</h3>
+      {/* Name at bottom */}
+      <div className="absolute bottom-1 md:bottom-2 left-0 right-0 flex items-center justify-center px-1">
+        <h3 className="text-body-1 md:text-subtitle-1 lg:text-subtitle-1 text-gray-dark text-center capitalize truncate w-full">
+          {pokemon.name}
+        </h3>
       </div>
     </div>
   )

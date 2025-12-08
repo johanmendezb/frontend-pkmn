@@ -1,8 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 @theme {
   /* Colors */
@@ -42,6 +39,61 @@
 @layer base {
   body {
     font-family: var(--font-family-sans);
+  }
+  
+  /* Custom radio button styling */
+  input[type='radio'] {
+    appearance: none;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid var(--color-gray-medium);
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    background-color: var(--color-white);
+  }
+  
+  input[type='radio']:checked {
+    border-color: var(--color-primary);
+    background-color: var(--color-white);
+  }
+  
+  input[type='radio']:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+  }
+  
+  input[type='radio']:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+  
+  /* Radio buttons on red background */
+  input[type='radio'].radio-on-red {
+    border-color: var(--color-white);
+    background-color: var(--color-white);
+  }
+  
+  input[type='radio'].radio-on-red:checked {
+    border-color: var(--color-white);
+    background-color: var(--color-white);
+  }
+  
+  input[type='radio'].radio-on-red:checked::after {
+    background-color: var(--color-primary);
+  }
+  
+  input[type='radio'].radio-on-red:focus {
+    outline: 2px solid var(--color-white);
+    outline-offset: 2px;
   }
 }
 
@@ -100,5 +152,9 @@
 
   .shadow-elevation-6 {
     box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.25);
+  }
+
+  .inner-shadow-2 {
+    box-shadow: inset 0px 1px 2px 0px rgba(0, 0, 0, 0.25);
   }
 }
