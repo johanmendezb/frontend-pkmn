@@ -1,11 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import { Layout } from '@/shared/components/Layout'
 import { usePokemonDetail } from '@/features/pokemon/hooks/usePokemonDetail'
-import { Button } from '@/shared/components/Button'
+import { ArrowLeft, ChevronLeft, ChevronRight, PokeBall } from '@/shared/components/icons'
+import { getTypeColor } from '@/features/pokemon/utils/getTypeColor'
 import type { PokemonDetail } from '@/features/pokemon/types/pokemon.types'
 
 interface PokemonDetailClientProps {
@@ -87,14 +88,15 @@ export function PokemonDetailClient({
     }
   }
 
-  const hasData = pokemon?.abilities?.length || pokemon?.moves?.length ||
-    pokemon?.forms?.length || pokemon?.types?.length || pokemon?.stats?.length
+  // Get primary type color for background
+  const primaryType = pokemon?.types?.[0]?.name || 'normal'
+  const typeColor = useMemo(() => getTypeColor(primaryType), [primaryType])
 
   if (isLoading) {
     return (
-      <Layout>
-        <div>
-          <p>Loading...</p>
+      <Layout showLogout={false} showHeaderControls={false}>
+        <div className="min-h-screen bg-gray-background">
+          <p className="p-4">Loading...</p>
         </div>
       </Layout>
     )
@@ -102,103 +104,193 @@ export function PokemonDetailClient({
 
   if (error || !pokemon) {
     return (
-      <Layout>
-        <div>
+      <Layout showLogout={false} showHeaderControls={false}>
+        <div className="min-h-screen bg-gray-background p-4">
           <p>Error loading Pokemon details</p>
-          <Button onClick={handleBack}>Back to List</Button>
+          <button onClick={handleBack} className="mt-4">
+            Back to List
+          </button>
         </div>
       </Layout>
     )
   }
 
   return (
-    <Layout>
-      <div>
-        <div>
-          <Button onClick={handleBack}>Back to List</Button>
-          <Button onClick={handlePrevious} disabled={!hasPrevious}>
-            Previous Pokemon
-          </Button>
-          <Button onClick={handleNext} disabled={!hasNext}>
-            Next Pokemon
-          </Button>
+    <Layout showLogout={false} showHeaderControls={false}>
+      <div
+        className="min-h-screen relative"
+        style={{ backgroundColor: typeColor }}
+      >
+        {/* Fixed Header Overlay */}
+        <header
+          className="fixed top-0 left-0 right-0 z-50 px-4 py-3"
+        >
+          <div className="flex items-center justify-between">
+            <button
+              onClick={handleBack}
+              className="w-10 h-10 flex items-center justify-center"
+              aria-label="Back to list"
+            >
+              <ArrowLeft size={24} color="#FFFFFF" />
+            </button>
+            <div className="flex items-center justify-between flex-1 mx-4">
+              <h1 className="text-headline text-white font-bold capitalize">
+                {pokemon.name}
+              </h1>
+              <span className="text-body-2 text-white">
+                #{String(pokemon.id).padStart(3, '0')}
+              </span>
+            </div>
+          </div>
+        </header>
+
+        {/* Background with type color and Pokeball */}
+        <div className="relative pt-16 pb-40">
+          {/* Pokeball background with opacity - top right */}
+          <div className="absolute top-8 right-4 opacity-20 z-0">
+            <PokeBall size={200} />
+          </div>
         </div>
 
-        <h1>{pokemon.name}</h1>
-        <p>#{String(pokemon.id).padStart(3, '0')}</p>
-
-        <Image
-          src={imageSrc}
-          alt={pokemon.name}
-          width={400}
-          height={400}
-          onError={handleImageError}
-        />
-
-        {!hasData ? (
-          <p>There is not enough information at this moment.</p>
-        ) : (
-          <>
-            {pokemon.abilities?.length > 0 && (
-              <section>
-                <h2>Abilities</h2>
-                <ul>
-                  {pokemon.abilities.map((ability, index) => (
-                    <li key={index}>
-                      {ability.name} {ability.isHidden && '(Hidden)'}
-                    </li>
-                  ))}
-                </ul>
-              </section>
+        {/* Pokemon Image, Navigation, and Type - All absolutely positioned together */}
+        <div className="absolute left-1/2 transform -translate-x-1/2 top-30 z-50 flex flex-col items-center">
+          {/* Navigation and Image Container */}
+          <div className="relative flex items-center justify-center gap-16 mb-4">
+            {hasPrevious && (
+              <button
+                onClick={handlePrevious}
+                className="flex items-center justify-center hover:opacity-80 transition-opacity"
+                aria-label="Previous Pokemon"
+              >
+                <ChevronLeft size={24} color="#FFFFFF" />
+              </button>
             )}
+            {!hasPrevious && <div className="w-6"></div>}
 
-            {pokemon.moves?.length > 0 && (
-              <section>
-                <h2>Moves</h2>
-                <ul>
-                  {pokemon.moves.map((move, index) => (
-                    <li key={index}>{move.name}</li>
-                  ))}
-                </ul>
-              </section>
-            )}
+            {/* Pokemon Image */}
+            <div className="w-[200px] h-[200px] flex items-center justify-center relative z-50">
+              <Image
+                src={imageSrc}
+                alt={pokemon.name}
+                width={200}
+                height={200}
+                onError={handleImageError}
+                className="object-contain"
+              />
+            </div>
 
-            {pokemon.forms?.length > 0 && (
-              <section>
-                <h2>Forms</h2>
-                <ul>
-                  {pokemon.forms.map((form, index) => (
-                    <li key={index}>{form.name}</li>
-                  ))}
-                </ul>
-              </section>
+            {hasNext && (
+              <button
+                onClick={handleNext}
+                className="flex items-center justify-center hover:opacity-80 transition-opacity"
+                aria-label="Next Pokemon"
+              >
+                <ChevronRight size={24} color="#FFFFFF" />
+              </button>
             )}
+            {!hasNext && <div className="w-6"></div>}
+          </div>
 
-            {pokemon.types && pokemon.types.length > 0 && (
-              <section>
-                <h2>Types</h2>
-                <ul>
-                  {pokemon.types.map((type, index) => (
-                    <li key={index}>{type.name}</li>
-                  ))}
-                </ul>
-              </section>
-            )}
+          {/* Type Badges - Below the image */}
+          {pokemon.types && pokemon.types.length > 0 && (
+            <div className="flex justify-center gap-2 flex-wrap">
+              {pokemon.types.map((type, index) => {
+                const typeBgColor = getTypeColor(type.name)
+                return (
+                  <div
+                    key={index}
+                    className="px-4 py-1 rounded-full"
+                    style={{ backgroundColor: typeBgColor }}
+                  >
+                    <span className="text-subtitle-1 text-white capitalize">
+                      {type.name}
+                    </span>
+                  </div>
+                )
+              })}
+            </div>
+          )}
+        </div>
 
-            {pokemon.stats && pokemon.stats.length > 0 && (
-              <section>
-                <h2>Stats</h2>
-                <ul>
-                  {pokemon.stats.map((stat, index) => (
-                    <li key={index}>
-                      {stat.name}: {stat.value}
-                    </li>
-                  ))}
-                </ul>
-              </section>
+        {/* Content Box */}
+        <div className="relative mx-2 mb-0 mt-10 z-40 pb-4">
+          <div className="rounded-3xl inner-shadow-2 p-6 pt-32 bg-white">
+            {(pokemon.abilities?.length > 0 ||
+              pokemon.moves?.length > 0 ||
+              pokemon.forms?.length > 0) ? (
+              <div className="space-y-6">
+                {pokemon.abilities?.length > 0 && (
+                  <section>
+                    <h2 className="text-subtitle-1 text-gray-dark mb-3">
+                      Abilities
+                    </h2>
+                    <div className="flex flex-wrap gap-2">
+                      {pokemon.abilities.map((ability, index) => (
+                        <div
+                          key={index}
+                          className="px-3 py-1 bg-gray-background rounded-full"
+                        >
+                          <span className="text-body-1 text-gray-dark capitalize">
+                            {ability.name}
+                            {ability.isHidden && (
+                              <span className="text-caption text-gray-medium ml-1">
+                                (Hidden)
+                              </span>
+                            )}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                )}
+
+                {pokemon.moves?.length > 0 && (
+                  <section>
+                    <h2 className="text-subtitle-1 text-gray-dark mb-3">
+                      Moves
+                    </h2>
+                    <div className="flex flex-wrap gap-2">
+                      {pokemon.moves.map((move, index) => (
+                        <div
+                          key={index}
+                          className="px-3 py-1 bg-gray-background rounded-full"
+                        >
+                          <span className="text-body-1 text-gray-dark capitalize">
+                            {move.name}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                )}
+
+                {pokemon.forms?.length > 0 && (
+                  <section>
+                    <h2 className="text-subtitle-1 text-gray-dark mb-3">
+                      Forms
+                    </h2>
+                    <div className="flex flex-wrap gap-2">
+                      {pokemon.forms.map((form, index) => (
+                        <div
+                          key={index}
+                          className="px-3 py-1 bg-gray-background rounded-full"
+                        >
+                          <span className="text-body-1 text-gray-dark capitalize">
+                            {form.name}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                )}
+              </div>
+            ) : (
+              <p className="text-body-1 text-gray-medium">
+                There is not enough information at this moment.
+              </p>
             )}
-          </>
-        )}
+          </div>
+        </div>
       </div>
     </Layout>
   )

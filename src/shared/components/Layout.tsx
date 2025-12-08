@@ -26,7 +26,7 @@ export function Layout({
   }
 
   return (
-    <div className="min-h-screen bg-gray-background flex flex-col">
+    <div className="flex flex-col">
       {showLogout && (
         <header className="bg-primary">
           <div className="px-4 py-4">
